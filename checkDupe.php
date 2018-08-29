@@ -15,21 +15,41 @@
 		<button type="submit" name="submit" class="searchbutton">Search</button>
 	</form>
 
-	<h4 align="center">More then one result was found! Please enter the unique id (bold number) for your desired result.</h4>
+	<h4 align="center" id="message" hidden>More then one result was found! Please enter the unique id (bold number) for your desired result.</h4>
 
 	<h5 align="center"></h5>
 
-	<div align="center">
-		<p id="one" hidden></p>
-		<p id="two" hidden></p>
-		<p id="three" hidden></p>
-		<p id="four" hidden></p>
-		<p id="five" hidden></p>
-		<p id="six" hidden></p>
-		<p id="seven" hidden></p>
-		<p id="eight" hidden></p>
-		<p id="nine" hidden></p>
-		<p id="ten" hidden></p>
+	<div align="center" class="duplicates">
+		<p id="1" hidden></p>
+		<p id="2" hidden></p>
+		<p id="3" hidden></p>
+		<p id="4" hidden></p>
+		<p id="5" hidden></p>
+		<p id="6" hidden></p>
+		<p id="7" hidden></p>
+		<p id="8" hidden></p>
+		<p id="9" hidden></p>
+		<p id="10" hidden></p>
+		<p id="11" hidden></p>
+		<p id="12" hidden></p>
+		<p id="13" hidden></p>
+		<p id="14" hidden></p>
+		<p id="15" hidden></p>
+		<p id="16" hidden></p>
+		<p id="17" hidden></p>
+		<p id="18" hidden></p>
+		<p id="19" hidden></p>
+		<p id="20" hidden></p>
+		<p id="21" hidden></p>
+		<p id="22" hidden></p>
+		<p id="23" hidden></p>
+		<p id="24" hidden></p>
+		<p id="25" hidden></p>
+		<p id="26" hidden></p>
+		<p id="27" hidden></p>
+		<p id="28" hidden></p>
+		<p id="29" hidden></p>
+		<p id="30" hidden></p>
 	</div>
 
 
@@ -40,7 +60,7 @@
 	include 'includes/dbh.php';
 
 	$searchTerm = $_GET['bookcode'];
-	echo $searchTerm . "<br>";
+	//echo $searchTerm . "<br>";
 
 	$searchBy = $_GET['searchBy'];
 
@@ -95,92 +115,47 @@
 		}
 		else
 		{
+			//echo "inside";
 			$dupe = false;
-			$number = 1;
+			$array = 0;
+			$number = 0;
 		}
 	?>
 
 	<script>
 		var dupe = <?php echo json_encode($dupe) ?>;
-		var number = <?php echo json_encode($number) ?>;
 		var row = <?php echo json_encode($array) ?>;
+		var number = <?php echo json_encode($number) ?>;
 
-		alert(row[0]['title']);
-		alert(row[1]['title']);
+		if (dupe == false)
+		{
+			window.location='includes/booktemplate.php';
+		}
+		else
+		{
+			document.getElementById("form").removeAttribute("hidden");
+			document.getElementById("message").removeAttribute("hidden");
+		}
+
+		//For Debugging purposes.
+
+		//alert(row[0]['title']);
+		//alert(row[1]['title']);
 
 		//alert(row['id']);
 
-		document.getElementById("form").removeAttribute("hidden");
-
-		//document.getElementById("one").innerHTML =  "<b>" + row['id'] + "</b>" + " " + row['title'] + " " + row['resource_id'] + " " + row['first_name'] + " " + row['last_name'];
-
 		for (var count = 1; count <= number; count++)
 		{
-			switch(count)
+
+			document.getElementById(count).removeAttribute("hidden");
+			document.getElementById(count).innerHTML =  "<b>" + row[count - 1]['id'] + "</b>" + " " + row[count - 1]['title'] + " " + row[count - 1]['resource_id'] + " " + row[count - 1]['first_name'] + " " + row[count - 1]['last_name'];
+
+			if (count > 30)
 			{
-
-				case 1:
-					document.getElementById("one").removeAttribute("hidden");
-					document.getElementById("one").innerHTML =  "<b>" + row[count - 1]['id'] + "</b>" + " " + row[count - 1]['title'] + " " + row[count - 1]['resource_id'] + " " + row[count - 1]['first_name'] + " " + row[count - 1]['last_name'];
 				break;
-
-				case 2:
-					document.getElementById("two").removeAttribute("hidden");
-					document.getElementById("two").innerHTML =  "<b>" + row[count - 1]['id'] + "</b>" + " " + row[count - 1]['title'] + " " + row[count - 1]['resource_id'] + " " + row[count - 1]['first_name'] + " " + row[count - 1]['last_name'];
-				break;
-
-				case 1:
-					document.getElementById("one").removeAttribute("hidden");
-					document.getElementById("one").innerHTML =  "<b>" + row[0]['id'] + "</b>" + " " + row[0]['title'] + " " + row[0]['resource_id'] + " " + row[0]['first_name'] + " " + row[0]['last_name'];
-				break;
-
-				case 1:
-					document.getElementById("one").removeAttribute("hidden");
-					document.getElementById("one").innerHTML =  "<b>" + row[0]['id'] + "</b>" + " " + row[0]['title'] + " " + row[0]['resource_id'] + " " + row[0]['first_name'] + " " + row[0]['last_name'];
-				break;
-
-				case 1:
-					document.getElementById("one").removeAttribute("hidden");
-					document.getElementById("one").innerHTML =  "<b>" + row[0]['id'] + "</b>" + " " + row[0]['title'] + " " + row[0]['resource_id'] + " " + row[0]['first_name'] + " " + row[0]['last_name'];
-				break;
-
-				case 1:
-					document.getElementById("one").removeAttribute("hidden");
-					document.getElementById("one").innerHTML =  "<b>" + row[0]['id'] + "</b>" + " " + row[0]['title'] + " " + row[0]['resource_id'] + " " + row[0]['first_name'] + " " + row[0]['last_name'];
-				break;
-
-				case 1:
-					document.getElementById("one").removeAttribute("hidden");
-					document.getElementById("one").innerHTML =  "<b>" + row[0]['id'] + "</b>" + " " + row[0]['title'] + " " + row[0]['resource_id'] + " " + row[0]['first_name'] + " " + row[0]['last_name'];
-				break;
-
-				case 1:
-					document.getElementById("one").removeAttribute("hidden");
-					document.getElementById("one").innerHTML =  "<b>" + row[0]['id'] + "</b>" + " " + row[0]['title'] + " " + row[0]['resource_id'] + " " + row[0]['first_name'] + " " + row[0]['last_name'];
-				break;
-
-				case 1:
-					document.getElementById("one").removeAttribute("hidden");
-					document.getElementById("one").innerHTML =  "<b>" + row[0]['id'] + "</b>" + " " + row[0]['title'] + " " + row[0]['resource_id'] + " " + row[0]['first_name'] + " " + row[0]['last_name'];
-				break;
-
-				case 1:
-					document.getElementById("one").removeAttribute("hidden");
-					document.getElementById("one").innerHTML =  "<b>" + row[0]['id'] + "</b>" + " " + row[0]['title'] + " " + row[0]['resource_id'] + " " + row[0]['first_name'] + " " + row[0]['last_name'];
-				break;
-
-
-
 			}
+			
 		}
-
-
-		
-
-
 	</script>
-
-
-
 </body>
 </html>
