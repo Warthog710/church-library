@@ -25,7 +25,7 @@
 		}
 		if ($searchBy == "title")
 		{
-			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.title ='$searchTerm';";
+			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.title LIKE '%$searchTerm%';";
 		}
 		if ($searchBy == "isbn")
 		{
@@ -33,7 +33,7 @@
 		}
 		if ($searchBy == "publisher")
 		{
-			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.publisher ='$searchTerm';";
+			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.publisher LIKE '%$searchTerm%';";
 		}
 
 	//$sql = "SELECT * FROM resource WHERE title='$title';";
@@ -62,6 +62,7 @@
     		$array[$count]['resource_id'] = $row['resource_id'];
     		$array[$count]['first_name'] = $row['first_name'];
     		$array[$count]['last_name'] = $row['last_name'];
+			$array[$count]['publisher'] = $row['publisher'];
 
     		$bookId[$count] = $row['id'];
 
@@ -212,7 +213,7 @@
 		for (var count = 1; count <= number; count++)
 		{
 			document.getElementById(count).removeAttribute("hidden");
-			document.getElementById(count).innerHTML =  row[count - 1]['title'];
+			document.getElementById(count).innerHTML =  row[count - 1]['title'] + ', by ' + row[count - 1]['author'] + ', from ' + row[count - 1]['publisher'];
 
 		}
 
