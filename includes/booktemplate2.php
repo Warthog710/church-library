@@ -27,7 +27,7 @@
 				<p class="publisher" id="bookpublisher">Doesn't exist or bad DB connection</p>
 				<p class="author" id="bookauthor">Doesn't exist or bad DB connection</p>
 				<p class="booknumber" id="bookid">Doesn't exist or bad DB connection</p>
-				<p class="status">Status: NOT IMPLEMENTED</p>
+				<p class="status" id="bookstatus">Status: UKNOWN</p>
 			</div>
 		</div>
 	</div>
@@ -46,7 +46,7 @@
 
 		if ($searchBy == "bCode")
 		{
-			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.id =$searchTerm;";
+			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name, IF(sub.id = null, 'Unkown', IF(sub.type = 1, 'OUT', 'IN')) AS bookstatus FROM resource r LEFT JOIN authorship au ON au.resource_id = r.id LEFT JOIN author a ON au.author_id = a.id LEFT JOIN (SELECT id, type FROM transaction_log WHERE resource_id = $searchTerm ORDER BY timestamp DESC LIMIT 1) sub ON sub.id = r.id WHERE r.id =$searchTerm;";
 		}
 		if ($searchBy == "author")
 		{
@@ -79,6 +79,7 @@
 		var description = <?php echo json_encode($row['description']) ?>;
 		var firstName = <?php echo json_encode($row['first_name']) ?>;
 		var lastName = <?php echo json_encode($row['last_name']) ?>;
+		var bookstatus = <?php echo json_encode($row['bookstatus']) ?>;
 
 		if (title == null)
 		{
@@ -132,6 +133,16 @@
 		else
 		{
 			document.getElementById('bookauthor').innerHTML = "Author: " + firstName + " " + lastName;
+
+		}
+		
+		if (status == null)
+		{
+			document.getElementById('bookstatus').innerHTML = "Status: Unknown Status";
+		}
+		else
+		{
+			document.getElementById('bookstatus').innerHTML = "Status: " + bookstatus;
 
 		}
 
