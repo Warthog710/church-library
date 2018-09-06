@@ -75,7 +75,7 @@
 		var title = <?php echo json_encode($row['title']) ?>;
 		var isbn = <?php echo json_encode($row['resource_id']) ?>;
 		var publisher = <?php echo json_encode($row['publisher']) ?>;
-		var id = <?php echo json_encode($row['resource_id']) ?>;
+		var id = <?php echo json_encode($row['id']) ?>;
 		var description = <?php echo json_encode($row['description']) ?>;
 		var firstName = <?php echo json_encode($row['first_name']) ?>;
 		var lastName = <?php echo json_encode($row['last_name']) ?>;
