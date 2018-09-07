@@ -71,7 +71,7 @@
 
 	?>
 
-	<form action="includes/bookTemplate2.php" method="get" id="form">
+	<form action="includes/bookTemplate.php" method="get" id="form">
 		<input type="text" name="bookcode" placeholder="Enter Book Number" class="inputfield" id="input" hidden>
 		<br>
 		<div class="radio">
@@ -213,7 +213,7 @@
 		for (var count = 1; count <= number; count++)
 		{
 			document.getElementById(count).removeAttribute("hidden");
-			document.getElementById(count).innerHTML =  row[count - 1]['title'] + ', by ' + row[count - 1]['author'] + ', from ' + row[count - 1]['publisher'];
+			document.getElementById(count).innerHTML =  row[count - 1]['title'] + ', by ' + row[count - 1]['first_name'] +  " " + row[count - 1]['last_name'] + ', from ' + row[count - 1]['publisher'];
 
 		}
 

@@ -41,8 +41,8 @@
 
 		session_start();
 
-		$searchTerm = $_SESSION['searchTerm'];
-		$searchBy = $_SESSION['searchBy'];
+		$searchTerm = $_GET['bookcode'];
+		$searchBy = $_GET['searchBy'];
 
 		if ($searchBy == "bCode")
 		{

@@ -6,13 +6,13 @@
 <body>
 
 	<form action="includes/booktemplate.php" method="get" align="center"  id="form" hidden>
-		<input type="text" name="bookcode" placeholder="Enter Book Number" class="inputfield">
+		<input type="text" name="bookcode" placeholder="Enter Book Number" class="inputfield" id="input">
 		<br>
 		<div class="radio">
 			<input type="radio" name="searchBy" value="bCode" id="bCode" checked="checked">Book Code
 		</div>
 		<br>
-		<button type="submit" name="submit" class="searchbutton">Search</button>
+		<button type="submit" name="btnSubmit" class="searchbutton">Search</button>
 	</form>
 
 	<h4 align="center" id="message" hidden>More then one result was found! Please enter the unique id (bold number) for your desired result.</h4>
@@ -64,11 +64,6 @@
 
 	$searchBy = $_GET['searchBy'];
 
-	session_start();
-
-	$_SESSION['searchTerm'] = $searchTerm;
-	$_SESSION['searchBy'] = $searchBy;
-
 	if ($searchBy == "bCode")
 		{
 			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.id =$searchTerm;";
@@ -115,9 +110,9 @@
 		}
 		else
 		{
-			//echo "inside";
+			$row = mysqli_fetch_assoc($result);
 			$dupe = false;
-			$array = 0;
+			$array = $row['id'];
 			$number = 0;
 		}
 	?>
@@ -129,7 +124,9 @@
 
 		if (dupe == false)
 		{
-			window.location='includes/booktemplate.php';
+			//alert(row);
+			document.getElementById("input").value = row;
+			document.getElementById("form").submit();
 		}
 		else
 		{
