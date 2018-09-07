@@ -8,24 +8,27 @@
 	<?php
 		include_once 'dbh.php';
 
-		$sql = "SELECT sub.book, sub.title, sub.checks, u.firstname, u.lastname, t.timestamp 
-FROM
-(SELECT * FROM (SELECT checkOut.book, r.title, (checkOut.typeCount - checkIn.typeCount) AS checks
-FROM (SELECT trans.resource_id as book, count(trans.type) typeCount
-		FROM transaction_log trans
-        WHERE type = 1
-        GROUP BY book) AS checkIn
-JOIN (SELECT trans.resource_id as book, count(trans.type) typeCount, timeStamp
-		FROM transaction_log trans
-		WHERE type = 2
-        GROUP BY book) AS checkOut ON checkOut.book = checkIn.book
-JOIN resource r ON r.id = checkOut.book
-GROUP BY checkOut.book) AS bookList
-WHERE bookList.checks > 0) AS sub 
-JOIN transaction_log t ON t.resource_id = sub.book
-JOIN users u ON u.id = t.users_id
-ORDER BY t.timestamp DESC
-LIMIT 1
+		$sql = "SELECT sub.book, sub.title, u.firstname, u.lastname, sub2.timestamp
+	FROM
+	(SELECT * FROM 
+		(SELECT checkOut.book, r.title, (IFNULL(checkOut.typeCount, 0) - IFNULL(checkIn.typeCount, 0)) AS checks
+			FROM 
+				(SELECT trans.resource_id as book, count(trans.type) typeCount, timeStamp
+					FROM transaction_log trans
+					WHERE type = 2
+					GROUP BY book) AS checkOut 
+			LEFT JOIN (SELECT trans.resource_id as book, count(trans.type) typeCount
+						FROM transaction_log trans
+						WHERE type = 1
+						GROUP BY book) AS checkIn ON checkOut.book = checkIn.book
+			JOIN resource r ON r.id = checkOut.book
+			GROUP BY checkOut.book) AS bookList
+		WHERE bookList.checks > 0) AS sub
+	JOIN (SELECT resource_id, max(timestamp) timestamp, t.users_id
+			FROM transaction_log t
+			WHERE type = 2
+			GROUP BY resource_id) AS sub2 ON sub2.resource_id = sub.book
+    JOIN users u ON u.id = sub2.users_id
 ";
 
 		$result = mysqli_query($conn, $sql);

@@ -27,7 +27,7 @@
 				<p class="publisher" id="bookpublisher">Doesn't exist or bad DB connection</p>
 				<p class="author" id="bookauthor">Doesn't exist or bad DB connection</p>
 				<p class="booknumber" id="bookid">Doesn't exist or bad DB connection</p>
-				<p class="status">Status: NOT IMPLEMENTED</p>
+				<p class="status" id="bookstatus">Status: UKNOWN</p>
 			</div>
 		</div>
 	</div>
@@ -38,15 +38,12 @@
 
 	<?php
 		include_once 'dbh.php';
-
 		session_start();
-
-		$searchTerm = $_SESSION['searchTerm'];
-		$searchBy = $_SESSION['searchBy'];
-
+		$searchTerm = $_GET['bookcode'];
+		$searchBy = $_GET['searchBy'];
 		if ($searchBy == "bCode")
 		{
-			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.id =$searchTerm;";
+			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name, IF(sub.id = null, 'Unkown', IF(sub.type = 1, 'OUT', 'IN')) AS bookstatus FROM resource r LEFT JOIN authorship au ON au.resource_id = r.id LEFT JOIN author a ON au.author_id = a.id LEFT JOIN (SELECT id, type FROM transaction_log WHERE resource_id = $searchTerm ORDER BY timestamp DESC LIMIT 1) sub ON sub.id = r.id WHERE r.id =$searchTerm;";
 		}
 		if ($searchBy == "author")
 		{
@@ -61,11 +58,8 @@
 		{
 			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.resource_id =$searchTerm;";
 		}
-
 		$result = mysqli_query($conn, $sql);
-
 		$row = mysqli_fetch_assoc($result);
-
 		$_SESSION['bookcode'] = $row['resource_id'];
 		$_SESSION['rId'] = $row['id'];
 	?>
@@ -75,11 +69,11 @@
 		var title = <?php echo json_encode($row['title']) ?>;
 		var isbn = <?php echo json_encode($row['resource_id']) ?>;
 		var publisher = <?php echo json_encode($row['publisher']) ?>;
-		var id = <?php echo json_encode($row['resource_id']) ?>;
+		var id = <?php echo json_encode($row['id']) ?>;
 		var description = <?php echo json_encode($row['description']) ?>;
 		var firstName = <?php echo json_encode($row['first_name']) ?>;
 		var lastName = <?php echo json_encode($row['last_name']) ?>;
-
+		var bookstatus = <?php echo json_encode($row['bookstatus']) ?>;
 		if (title == null)
 		{
 			document.getElementById('booktitle').innerHTML = "Unknown Title";
@@ -88,7 +82,6 @@
 		{
 			document.getElementById('booktitle').innerHTML = title;
 		}
-
 		if (isbn == null)
 		{
 			document.getElementById('bookisbn').innerHTML = "ISBN: Unknown ISBN";
@@ -97,7 +90,6 @@
 		{
 			document.getElementById('bookisbn').innerHTML = "ISBN: " + isbn;
 		}
-
 		if (publisher == null)
 		{
 			document.getElementById('bookpublisher').innerHTML = "Publisher: Unknown Publisher";
@@ -106,7 +98,6 @@
 		{
 			document.getElementById('bookpublisher').innerHTML = "Publisher: " + publisher;
 		}
-
 		if (id == null)
 		{
 			document.getElementById('bookid').innerHTML = "Library Number: Unknown ID";
@@ -115,7 +106,6 @@
 		{
 			document.getElementById('bookid').innerHTML = "Library Number: " + id;
 		}
-
 		if (description == null || description == "")
 		{
 			document.getElementById('bookdescription').innerHTML = "No Description...";
@@ -124,7 +114,6 @@
 		{
 			document.getElementById('bookdescription').innerHTML = description;
 		}
-
 		if (firstName == null && lastName == null)
 		{
 			document.getElementById('bookauthor').innerHTML = "Author: Unknown Author";
@@ -132,25 +121,28 @@
 		else
 		{
 			document.getElementById('bookauthor').innerHTML = "Author: " + firstName + " " + lastName;
-
 		}
-
+		
+		if (status == null)
+		{
+			document.getElementById('bookstatus').innerHTML = "Status: Unknown Status";
+		}
+		else
+		{
+			document.getElementById('bookstatus').innerHTML = "Status: " + bookstatus;
+		}
 		function checkout()
 		{
 			window.location='checkout1.php';
 		}
-
 		function goback()
 		{
-			window.location='../checkout.php';
+			window.location='../index.php';
 		}
-
 		function home()
 		{
 			window.location='../index.php';
 		}
-
 	</script>
 </body>
 </html>
-
