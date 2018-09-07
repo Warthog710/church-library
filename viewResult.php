@@ -20,8 +20,7 @@
 		}
 		if ($searchBy == "author")
 		{
-			$stringArray = explode(" ", $searchTerm);
-			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE a.first_name='$stringArray[0]' AND a.last_name='$stringArray[1]';";
+			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE CONCAT(a.first_name, ' ', a.last_name) LIKE '%$searchTerm%';";
 		}
 		if ($searchBy == "title")
 		{
@@ -214,8 +213,7 @@
 		{
 			document.getElementById(count).removeAttribute("hidden");
 			document.getElementById(count).innerHTML =  row[count - 1]['title'] + ', by ' + row[count - 1]['first_name'] +  " " + row[count - 1]['last_name'] + ', from ' + row[count - 1]['publisher'];
-
-		}
+    }
 
 		function buttonClick(clicked_id)
 		{
