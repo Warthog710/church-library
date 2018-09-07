@@ -56,22 +56,17 @@
 
 
 	<?php
-
 	include 'includes/dbh.php';
-
 	$searchTerm = $_GET['bookcode'];
 	//echo $searchTerm . "<br>";
-
 	$searchBy = $_GET['searchBy'];
-
 	if ($searchBy == "bCode")
 		{
 			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.id =$searchTerm;";
 		}
 		if ($searchBy == "author")
 		{
-			$stringArray = explode(" ", $searchTerm);
-			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE a.first_name='$stringArray[0]' AND a.last_name='$stringArray[1]';";
+			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE CONCAT(a.first_name, ' ', a.last_name) LIKE '%$searchTerm%';";
 		}
 		if ($searchBy == "title")
 		{
@@ -85,17 +80,13 @@
 		{
 			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.publisher ='$searchTerm';";
 		}
-
 		$result = mysqli_query($conn, $sql);		
 		//$row = mysqli_fetch_assoc($result);
-
 		if(mysqli_num_rows($result) > 1)
 		{
 			$dupe = true;
 			$number = mysqli_num_rows($result);
-
 			$count = 0;
-
 			//Putting results into a two dimensional array.
 			while ($row = mysqli_fetch_array($result))
 			{
@@ -104,7 +95,6 @@
     			$array[$count]['resource_id'] = $row['resource_id'];
     			$array[$count]['first_name'] = $row['first_name'];
     			$array[$count]['last_name'] = $row['last_name'];
-
     			$count++;
 			}
 		}
@@ -121,7 +111,6 @@
 		var dupe = <?php echo json_encode($dupe) ?>;
 		var row = <?php echo json_encode($array) ?>;
 		var number = <?php echo json_encode($number) ?>;
-
 		if (dupe == false)
 		{
 			//alert(row);
@@ -133,20 +122,14 @@
 			document.getElementById("form").removeAttribute("hidden");
 			document.getElementById("message").removeAttribute("hidden");
 		}
-
 		//For Debugging purposes.
-
 		//alert(row[0]['title']);
 		//alert(row[1]['title']);
-
 		//alert(row['id']);
-
 		for (var count = 1; count <= number; count++)
 		{
-
 			document.getElementById(count).removeAttribute("hidden");
 			document.getElementById(count).innerHTML =  "<b>" + row[count - 1]['id'] + "</b>" + " " + row[count - 1]['title'] + " " + row[count - 1]['resource_id'] + " " + row[count - 1]['first_name'] + " " + row[count - 1]['last_name'];
-
 			if (count > 30)
 			{
 				break;
