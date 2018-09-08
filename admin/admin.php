@@ -12,8 +12,8 @@
 	<a href="addbook.php">Add a book.</a>
 	<br>
 	<a href="deletebook.php">Delete a book.</a>
-	<br>
-	<a href="test.php">Testing...</a>
+	<br><br>
+	<a href="../index.php">Go back</a>
 </head>
 <body>
 
