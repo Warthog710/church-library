@@ -58,6 +58,7 @@
 		{
 			$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id WHERE r.resource_id =$searchTerm;";
 		}
+
 		$result = mysqli_query($conn, $sql);
 		$row = mysqli_fetch_assoc($result);
 		$_SESSION['bookcode'] = $row['resource_id'];
@@ -74,6 +75,9 @@
 		var firstName = <?php echo json_encode($row['first_name']) ?>;
 		var lastName = <?php echo json_encode($row['last_name']) ?>;
 		var bookstatus = <?php echo json_encode($row['bookstatus']) ?>;
+
+		//alert(title);
+
 		if (title == null)
 		{
 			document.getElementById('booktitle').innerHTML = "Unknown Title";
