@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2018 at 06:34 AM
+-- Generation Time: Sep 13, 2018 at 11:08 PM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -39,7 +39,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `pword`) VALUES
-(1, 'username', 123456789);
+(1, '1752', 1752);
 
 -- --------------------------------------------------------
 
@@ -1191,7 +1191,7 @@ INSERT INTO `resource` (`id`, `resource_id`, `title`, `description`, `publisher`
 (59, '9781845507909\r', 'Eric Liddell: Are you ready? (Little Lights)', '', 'CF4Kids', '5/20/2012', 24, '2018-05-27 21:19:45'),
 (60, '9781845507916\r', 'Mary Slessor: What is it like? (Little Lights)', '', 'CF4Kids', '5/20/2012', 24, '2018-05-27 21:19:45'),
 (61, '9780851513201\r', 'They Shall Be Mine', '', 'Banner of Truth', '6/1/1981', 128, '2018-05-27 21:19:45'),
-(62, '9780851513843\r', 'Voyage to Freedom - a Story of the Atlantic Crossing 1620', '', 'Banner of Truth', '6/1/1984', 160, '2018-05-27 21:19:45'),
+(62, '9780851513843', 'Voyage to Freedom - a Story of the Atlantic Crossing 1620', '', 'Banner of Truth', '6/1/1984', 160, '2018-05-27 21:19:45'),
 (63, '9781845503833\r', 'Helen Roseveare: What\'s in the parcel? (Little Lights)', '', 'CF4K', '10/21/2008', 24, '2018-05-27 21:19:45'),
 (64, '9781845501105\r', 'George Muller: Does Money Grow On Trees? (Little Lights)', '', 'CF4K', '7/24/2006', 24, '2018-05-27 21:19:45'),
 (65, '9781845501099\r', 'Corrie Ten Boom: Are all of the watches safe? (Little Lights)', '', 'CF4Kids', '1/20/2006', 24, '2018-05-27 21:19:45'),
@@ -1838,7 +1838,23 @@ INSERT INTO `transaction_log` (`id`, `resource_id`, `type`, `users_id`, `timesta
 (5, '23', 2, 1, '2018-08-06 10:56:42'),
 (6, '567', 2, 3, '2018-08-06 10:57:29'),
 (7, '62', 2, 1, '2018-08-06 10:58:35'),
-(8, '23', 1, 1, '2018-08-06 12:27:17');
+(8, '23', 1, 1, '2018-08-06 12:27:17'),
+(9, '339', 2, 4, '2018-09-06 22:58:11'),
+(10, '62', 1, 1, '2018-09-07 18:18:59'),
+(11, '567', 1, 3, '2018-09-07 18:29:21'),
+(12, '339', 1, 4, '2018-09-07 18:30:54'),
+(13, '78', 2, 1, '2018-09-07 18:32:59'),
+(14, '78', 1, 1, '2018-09-07 18:33:18'),
+(15, '175', 2, 5, '2018-09-07 18:59:53'),
+(16, '75', 2, 1, '2018-09-07 19:00:24'),
+(17, '75', 1, 1, '2018-09-07 19:00:52'),
+(18, '175', 1, 5, '2018-09-07 19:00:58'),
+(19, '3', 2, 1, '2018-09-07 21:43:04'),
+(20, '421', 2, 6, '2018-09-07 22:07:00'),
+(21, '421', 1, 6, '2018-09-07 22:07:21'),
+(22, '3', 1, 1, '2018-09-07 22:25:14'),
+(23, '276', 2, 1, '2018-09-07 22:41:13'),
+(24, '276', 1, 1, '2018-09-07 22:41:33');
 
 -- --------------------------------------------------------
 
@@ -1860,7 +1876,10 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`) VALUES
 (1, 'Quinn', 'Roemer', 'computergeek710@gmail.com'),
 (2, 'John', 'Smith', 'john_smith@yahoo.com'),
-(3, 'Daniel', 'Dog', 'danielDog@something.com');
+(3, 'Daniel', 'Dog', 'danielDog@something.com'),
+(4, 'Charles', 'Feather', 'charles_feather@sbcglobal.com'),
+(5, 'Charles', 'Doe', 'something_strange@me.com'),
+(6, 'Joey', 'Graziano', 'joeythebear@iDontCare.com');
 
 --
 -- Indexes for dumped tables
@@ -1970,13 +1989,13 @@ ALTER TABLE `resource`
 -- AUTO_INCREMENT for table `transaction_log`
 --
 ALTER TABLE `transaction_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
