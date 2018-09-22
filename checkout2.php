@@ -19,9 +19,9 @@
 
 	<div class = "container">
 		<form action="checkout3.php" method="get">
-				<input type="text" name="email" placeholder="Enter E-Mail" class="inputfield1">
+				<input type="text" id="theEmail" name="email" placeholder="Enter E-Mail" class="inputfield1">
 				<br>
-				<button type="submit" name="submit" class="searchbutton">Submit</button>
+				<button type="submit" name="submit" onclick="return validateEmail()" class="searchbutton">Submit</button>
 		</form>
 		<button class="goback" onclick="goback()">Go Back</button>
 	</div>
@@ -41,7 +41,7 @@
 	$_SESSION['firstname'] = $firstName;
 	$_SESSION['lastname'] = $lastName;
 
-	$sql = "SELECT * FROM users WHERE firstname='$firstName' AND lastname='$lastName';";
+	$sql = "SELECT * FROM users WHERE firstname='$firstName';";
 
 	$result = mysqli_query($conn, $sql);
 
@@ -59,6 +59,25 @@
 	?>
 
 	<script>
+	
+	function validateEmail() {
+		var email;
+		var filter = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+			
+		email = document.getElementById("theEmail").value;
+			
+		if (email=="") {
+			alert("Please Enter An E-Mail Address");
+			return false;
+		}
+		
+		if (!filter.test(email)) {
+			alert('Please provide a valid email address');
+			email.focus;
+			return false;
+		}
+	}
+		
 		var firstName = <?php echo json_encode($row['firstname']) ?>;
 
 		if (firstName != null && firstName != "")
