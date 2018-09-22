@@ -15,20 +15,37 @@
 
 	<div class="inputfield">
 		<form action="checkout2.php" method="get">
-			<input type="text" name="firstname" placeholder="Enter First Name" class="inputfield1">
+			<input type="text" id="FName" name="firstname" placeholder="Enter First Name" class="inputfield1">
 			<br>
-			<input type="text" name="lastname" placeholder="Enter Last Name" class="inputfield1">
+			<input type="text" id="LName" name="lastname" placeholder="Enter Last Name" class="inputfield1">
 			<br>
-			<button type="submit" name="submit" class="searchbutton">Submit</button>
+			<button type="submit" name="submit" onclick = "return validateFN()" class="searchbutton">Submit</button>
 		</form>
 
 	</div>
 
 	<script>
+	
+	function validateFN() {
+		
+			var first_name;
+			var last_name;
+			
+			first_name = document.getElementById("FName").value;
+			last_name = document.getElementById("LName").value;
+			
+			if (first_name=="" || last_name=="") {
+				alert("Please Fill All Required Fields");
+				return false;
+			}
+		}
+		
 		function home()
 		{
 			window.location= '../index.php';
 		}
+		
+		
 	</script>
 
 </body>
