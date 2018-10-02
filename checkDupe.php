@@ -15,45 +15,12 @@
 		<button type="submit" name="btnSubmit" class="searchbutton">Search</button>
 	</form>
 
-	<h4 align="center" id="message" hidden>More then one result was found! Please enter the unique id (bold number) for your desired result.</h4>
+	<h4 align="center" id="message" hidden>More then one result was found! Please enter the unique id for your desired result.</h4>
 
 	<h5 align="center"></h5>
 
-	<div align="center" class="duplicates">
-		<p id="1" hidden></p>
-		<p id="2" hidden></p>
-		<p id="3" hidden></p>
-		<p id="4" hidden></p>
-		<p id="5" hidden></p>
-		<p id="6" hidden></p>
-		<p id="7" hidden></p>
-		<p id="8" hidden></p>
-		<p id="9" hidden></p>
-		<p id="10" hidden></p>
-		<p id="11" hidden></p>
-		<p id="12" hidden></p>
-		<p id="13" hidden></p>
-		<p id="14" hidden></p>
-		<p id="15" hidden></p>
-		<p id="16" hidden></p>
-		<p id="17" hidden></p>
-		<p id="18" hidden></p>
-		<p id="19" hidden></p>
-		<p id="20" hidden></p>
-		<p id="21" hidden></p>
-		<p id="22" hidden></p>
-		<p id="23" hidden></p>
-		<p id="24" hidden></p>
-		<p id="25" hidden></p>
-		<p id="26" hidden></p>
-		<p id="27" hidden></p>
-		<p id="28" hidden></p>
-		<p id="29" hidden></p>
-		<p id="30" hidden></p>
+	<div align="center" id="duplicates">
 	</div>
-
-
-
 
 	<?php
 	include 'includes/dbh.php';
@@ -87,6 +54,7 @@
 			$dupe = true;
 			$number = mysqli_num_rows($result);
 			$count = 0;
+
 			//Putting results into a two dimensional array.
 			while ($row = mysqli_fetch_array($result))
 			{
@@ -111,30 +79,34 @@
 		var dupe = <?php echo json_encode($dupe) ?>;
 		var row = <?php echo json_encode($array) ?>;
 		var number = <?php echo json_encode($number) ?>;
+
+
+		//If only 1 book is found this code will redirect to the books page.
 		if (dupe == false)
 		{
-			//alert(row);
 			document.getElementById("input").value = row;
 			document.getElementById("form").submit();
 		}
+
+		//Else, this code will execute and reveal the form where the user can input their desired book
 		else
 		{
 			document.getElementById("form").removeAttribute("hidden");
 			document.getElementById("message").removeAttribute("hidden");
 		}
-		//For Debugging purposes.
-		//alert(row[0]['title']);
-		//alert(row[1]['title']);
-		//alert(row['id']);
-		for (var count = 1; count <= number; count++)
+
+		//Creating the necessary elements.
+		for (var count = 0; count < number; count++)
 		{
-			document.getElementById(count).removeAttribute("hidden");
-			document.getElementById(count).innerHTML =  "<b>" + row[count - 1]['id'] + "</b>" + " " + row[count - 1]['title'] + " " + row[count - 1]['resource_id'] + " " + row[count - 1]['first_name'] + " " + row[count - 1]['last_name'];
-			if (count > 30)
-			{
-				break;
-			}
-			
+			//These variables are used to hold newly created elements.			
+			var para = document.createElement("P");	
+			var text = document.createTextNode(row[count]['title'] + " | by " + row[count]['first_name'] + " " + row[count]['last_name'] + " | Unique ID: " + row[count]['id']);
+
+			//Appending the text to the paragraph element.
+			para.appendChild(text);
+
+			//Appending the paragraph elment to the duplicates ID.
+			document.getElementById("duplicates").appendChild(para);			
 		}
 	</script>
 </body>

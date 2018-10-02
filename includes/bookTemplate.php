@@ -2,21 +2,16 @@
 <html>
 <head>
 	<title>GRBC Library</title>
-
 	<div class="topbar">
 			<img src="../images/logoplaceholder.png" class="logo">
 			<button type="submit" name="submit" class="navbutton" onclick="home()">Home</button>	
 		
 	</div>
-
 </head>
 <body>
-
 	<link href="../css/btstylesheet.css" type="text/css" rel="stylesheet"/>
-
 	<div class="allinfo">
 		<img class="bookimage" src="../images/genericBook.jpg">
-
 		<div class="info">
 			<h2 class="title" id="booktitle" align="center">Doesn't exist or bad DB connection</h2>
 			<div class="container">
@@ -33,9 +28,8 @@
 	</div>
 	<div class="buttons">
 		<button type="submit" name="submit" class="button1" onclick="goback()">Go Back</button>
-		<button type="submit" name="submit" class="button2" onclick="checkout()">Checkout</button>
+		<button type="submit" name="submit" class="button2" id="checkout" onclick="checkout()">Checkout</button>
 	</div>
-
 	<?php
 		include_once 'dbh.php';
 		session_start();
@@ -43,24 +37,65 @@
 		$searchBy = $_GET['searchBy'];
 		$sql = "SELECT r.id, r.title, r.publisher, r.resource_id, r.description, a.first_name, a.last_name, IF(sub.type=2, 'OUT', 'IN') AS bookstatus FROM resource r JOIN authorship au ON au.resource_id = r.id JOIN author a ON au.author_id = a.id LEFT JOIN (SELECT t.resource_id, t.type FROM transaction_log t WHERE t.resource_id = $searchTerm ORDER BY timestamp DESC) sub ON sub.resource_id = r.id WHERE r.id =$searchTerm;";
 		$result = mysqli_query($conn, $sql);
-		$row = mysqli_fetch_assoc($result);
-		$_SESSION['bookcode'] = $row['resource_id'];
-		$_SESSION['rId'] = $row['id'];
+		//$row = mysqli_fetch_assoc($result);
+		$number = mysqli_num_rows($result);
+		$count = 0;
+		if($number > 1)
+		{
+			//Putting results into a two dimensional array.
+			while ($row = mysqli_fetch_array($result))
+			{
+    			$array[$count]['id'] = $row['id'];
+    			$array[$count]['title'] = $row['title'];
+    			$array[$count]['publisher'] = $row['publisher'];
+    			$array[$count]['resource_id'] = $row['resource_id'];
+    			$array[$count]['description'] = $row['description'];
+    			$array[$count]['first_name'] = $row['first_name'];
+    			$array[$count]['last_name'] = $row['last_name'];
+    			$array[$count]['bookstatus'] = $row['bookstatus'];
+    			$count++;
+			}
+			$_SESSION['bookcode'] = $array[$count - 1]['resource_id'];
+			$_SESSION['rId'] = $array[$count - 1]['id'];
+		}
+		else
+		{
+			$array = mysqli_fetch_assoc($result);
+			$_SESSION['bookcode'] = $array['resource_id'];
+			$_SESSION['rId'] = $array['id'];
+		}
 	?>
-
 	<script>
-		
-		var title = <?php echo json_encode($row['title']) ?>;
-		var isbn = <?php echo json_encode($row['resource_id']) ?>;
-		var publisher = <?php echo json_encode($row['publisher']) ?>;
-		var id = <?php echo json_encode($row['id']) ?>;
-		var description = <?php echo json_encode($row['description']) ?>;
-		var firstName = <?php echo json_encode($row['first_name']) ?>;
-		var lastName = <?php echo json_encode($row['last_name']) ?>;
-		var bookstatus = <?php echo json_encode($row['bookstatus']) ?>;
-
-		//alert(title);
-
+		var number = <?php echo json_encode($number) ?>;
+		var row = <?php echo json_encode($array) ?>;
+		if (number > 1)
+		{
+			var bookstatus = row[number -1 ]['bookstatus'];
+			var title = row[number -1 ]['title'];
+			var isbn = row[number -1 ]['resource_id'];
+			var publisher = row[number -1 ]['publisher'];
+			var first_name = row[number -1 ]['first_name'];
+			var last_name = row[number -1 ]['last_name'];
+			var description = row[number -1 ]['description'];
+			var id = row[number -1 ]['id'];
+		}
+		else
+		{
+			var bookstatus = row['bookstatus'];
+			var title = row['title'];
+			var isbn = row['resource_id'];
+			var publisher = row['publisher'];
+			var first_name = row['first_name'];
+			var last_name = row['last_name'];
+			var description = row['description'];
+			var id = row['id'];
+		}
+		//alert(number);
+		if (bookstatus == "OUT")
+		{
+			document.getElementById("checkout").removeAttribute("onclick");
+			document.getElementById("checkout").innerHTML = "Out";
+		}
 		if (title == null)
 		{
 			document.getElementById('booktitle').innerHTML = "Unknown Title";
@@ -101,16 +136,16 @@
 		{
 			document.getElementById('bookdescription').innerHTML = description;
 		}
-		if (firstName == null && lastName == null)
+		if (first_name == null && last_name == null)
 		{
 			document.getElementById('bookauthor').innerHTML = "Author: Unknown Author";
 		}
 		else
 		{
-			document.getElementById('bookauthor').innerHTML = "Author: " + firstName + " " + lastName;
+			document.getElementById('bookauthor').innerHTML = "Author: " + first_name + " " + last_name;
 		}
 		
-		if (status == null)
+		if (bookstatus == null)
 		{
 			document.getElementById('bookstatus').innerHTML = "Status: Unknown Status";
 		}

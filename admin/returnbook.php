@@ -69,7 +69,22 @@
 
 			for (var count = 0; count < number; count++)
 			{	
-				var radio = document.createElement("input");	
+				var button = document.createElement("button");
+				var text = document.createTextNode(row[count]['title'] + "\nChecked out by: " + row[count]['first_name'] + " " + row[count]['last_name'] + " on " + row[count]['timestamp']);
+				var linebreak = document.createElement("br");
+
+				//Setting the buttons attributes.
+				button.setAttribute('onclick', 'buttonClick(this.id)');
+				button.setAttribute('id', count);
+
+				//Appending the text to the button.
+				button.appendChild(text);
+
+				//Appending the button element to the viewButtons div.
+				document.getElementById("rButtons").appendChild(button);
+				document.getElementById("rButtons").appendChild(linebreak);
+
+				/*var radio = document.createElement("input");	
 				var element = document.getElementById("rButtons");
 				var linebreak = document.createElement("br");
 				radio.setAttribute('type', 'button');
@@ -79,7 +94,7 @@
 				element.appendChild(radio);
 				element.appendChild(linebreak);
 
-				document.getElementById(count).value = row[count]['title'] + "\nChecked out by: " + row[count]['first_name'] + " " + row[count]['last_name'] + " on " + row[count]['timestamp'];
+				document.getElementById(count).value = row[count]['title'] + "\nChecked out by: " + row[count]['first_name'] + " " + row[count]['last_name'] + " on " + row[count]['timestamp'];*/
 			}
 		}
 
