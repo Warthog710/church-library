@@ -114,6 +114,7 @@
 			//These variables are used to hold newly created variables.	
 			var button = document.createElement("button");
 			var text = document.createTextNode(row[count]['title'] + ', by ' + row[count]['first_name'] +  " " + row[count]['last_name'] + ', from ' + row[count]['publisher']);
+			var linebreak = document.createElement("br");
 
 			//Setting the buttons attributes.
 			button.setAttribute('onclick', 'buttonClick(this.id)');
@@ -124,6 +125,7 @@
 
 			//Appending the button element to the viewButtons div.
 			document.getElementById("viewButtons").appendChild(button);
+			document.getElementById("viewButtons").appendChild(linebreak);
    		}
 
 		function buttonClick(clicked_id)
