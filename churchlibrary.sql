@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2018 at 11:08 PM
+-- Generation Time: Oct 06, 2018 at 01:29 AM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.2.6
 
@@ -21,25 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `churchlibrary`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin`
---
-
-CREATE TABLE `admin` (
-  `id` int(12) NOT NULL,
-  `username` varchar(24) NOT NULL,
-  `pword` int(48) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `admin`
---
-
-INSERT INTO `admin` (`id`, `username`, `pword`) VALUES
-(1, '1752', 1752);
 
 -- --------------------------------------------------------
 
@@ -1123,6 +1104,25 @@ INSERT INTO `deleted_resource` (`id`, `resource_id`, `title`, `description`, `pu
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `login`
+--
+
+CREATE TABLE `login` (
+  `id` int(11) NOT NULL,
+  `password` varchar(256) NOT NULL,
+  `username` varchar(256) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `login`
+--
+
+INSERT INTO `login` (`id`, `password`, `username`) VALUES
+(1, '$2y$10$CB/VCgixlWxqLx1POUiMAeYgZZ4cPjuNt/SNlLi7WnjEnO0jqT.yq', '$2y$10$CB/VCgixlWxqLx1POUiMAeYgZZ4cPjuNt/SNlLi7WnjEnO0jqT.yq');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `resource`
 --
 
@@ -1854,7 +1854,12 @@ INSERT INTO `transaction_log` (`id`, `resource_id`, `type`, `users_id`, `timesta
 (21, '421', 1, 6, '2018-09-07 22:07:21'),
 (22, '3', 1, 1, '2018-09-07 22:25:14'),
 (23, '276', 2, 1, '2018-09-07 22:41:13'),
-(24, '276', 1, 1, '2018-09-07 22:41:33');
+(24, '276', 1, 1, '2018-09-07 22:41:33'),
+(25, '456', 2, 1, '2018-10-02 15:03:33'),
+(26, '175', 2, 1, '2018-10-02 15:03:51'),
+(27, '634', 2, 7, '2018-10-02 15:04:28'),
+(28, '456', 1, 1, '2018-10-02 15:06:47'),
+(29, '130', 2, 1, '2018-10-05 16:25:03');
 
 -- --------------------------------------------------------
 
@@ -1879,17 +1884,12 @@ INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`) VALUES
 (3, 'Daniel', 'Dog', 'danielDog@something.com'),
 (4, 'Charles', 'Feather', 'charles_feather@sbcglobal.com'),
 (5, 'Charles', 'Doe', 'something_strange@me.com'),
-(6, 'Joey', 'Graziano', 'joeythebear@iDontCare.com');
+(6, 'Joey', 'Graziano', 'joeythebear@iDontCare.com'),
+(7, 'Joe', 'Yoe', 'blabblah@awesome.org');
 
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `applied_category`
@@ -1922,6 +1922,12 @@ ALTER TABLE `deleted_resource`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `resource`
 --
 ALTER TABLE `resource`
@@ -1942,12 +1948,6 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `admin`
---
-ALTER TABLE `admin`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `applied_category`
@@ -1980,6 +1980,12 @@ ALTER TABLE `deleted_resource`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `login`
+--
+ALTER TABLE `login`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `resource`
 --
 ALTER TABLE `resource`
@@ -1989,13 +1995,13 @@ ALTER TABLE `resource`
 -- AUTO_INCREMENT for table `transaction_log`
 --
 ALTER TABLE `transaction_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
