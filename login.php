@@ -49,7 +49,6 @@
 			if(password_verify($password, $row['password']) && password_verify($username, $row['username']))
 			{
 				$goodLogin = true;
-				echo "is good";
 				$_SESSION['goodLogin'] = true;
 			}
 			else

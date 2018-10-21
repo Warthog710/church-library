@@ -8,6 +8,24 @@
 	<?php
 		include_once 'dbh.php';
 
+		session_start();
+		//Checks to see if the login process was successfully completed.
+		if(isset($_SESSION['goodLogin']))
+		{
+			if($_SESSION['goodLogin'] == true)
+			{
+				$goodLogin = true;
+			}
+			else
+			{
+				$goodLogin = false;
+			}
+		}
+		else
+		{
+			$goodLogin = false;
+		}
+
 		$sql = "SELECT sub.book, sub.title, u.firstname, u.lastname, sub2.timestamp
 	FROM
 	(SELECT * FROM 
@@ -47,6 +65,16 @@
 		}
 
 	?>
+
+	<script>
+		//If the login process was not completed the user will be redirected
+		var goodLogin = <?php echo json_encode($goodLogin) ?>;
+
+		if (goodLogin == false)
+		{
+			window.location='../index.php';
+		}
+	</script>
 
 </body>
 </html>

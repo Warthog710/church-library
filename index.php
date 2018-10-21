@@ -18,6 +18,16 @@
 
 	<a href="login.php" class="adminlink">Log in as Admin</a>
 
+	<?php
+	//This code checks for and resets the goodLogin variable. Used in login.php
+	session_start();
+
+	if(isset($_SESSION['goodLogin']))
+	{
+		$_SESSION['goodLogin'] = false;
+	}
+	?>
+
 	<script>
 		function checkout()
 		{
