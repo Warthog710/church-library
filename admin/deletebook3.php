@@ -15,6 +15,23 @@
 
 		session_start();
 
+		//Checks to see if the login process was successfully completed.
+		if(isset($_SESSION['goodLogin']))
+		{
+			if($_SESSION['goodLogin'] == true)
+			{
+				$goodLogin = true;
+			}
+			else
+			{
+				$goodLogin = false;
+			}
+		}
+		else
+		{
+			$goodLogin = false;
+		}
+
 		$title = $_SESSION['deleteTitle'];
 		//echo $title;
 
@@ -45,5 +62,15 @@
 		echo "DELETION SUCCESSFUL";
 
 	?>
+
+	<script>
+		//If the login process was not completed the user will be redirected
+		var goodLogin = <?php echo json_encode($goodLogin) ?>;
+
+		if (goodLogin == false)
+		{
+			window.location='../index.php';
+		}
+	</script>
 </body>
 </html>

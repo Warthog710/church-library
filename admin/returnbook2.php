@@ -16,6 +16,25 @@
 
 		include '../includes/dbh.php';
 
+		session_start();
+		//Checks to see if the login process was successfully completed.
+		if(isset($_SESSION['goodLogin']))
+		{
+			if($_SESSION['goodLogin'] == true)
+			{
+				$goodLogin = true;
+			}
+			else
+			{
+				$goodLogin = false;
+			}
+		}
+		else
+		{
+			$goodLogin = false;
+		}
+
+
 		$searchTerm = $_GET['bookcode'];
 		$dateTerm = $_GET['date'];
 		//echo $dateTerm;
@@ -47,6 +66,15 @@
 		var row = <?php echo json_encode($row) ?>;
 		var user = <?php echo json_encode($array) ?>;
 
+		//If the login process was not completed the user will be redirected
+		var goodLogin = <?php echo json_encode($goodLogin) ?>;
+
+		if (goodLogin == false)
+		{
+			window.location='../index.php';
+		}
+
+		
 		document.getElementById("message").innerHTML = row['title']  + " has been successfully returned!";
 
 		function goBack()

@@ -17,6 +17,23 @@
 
 	session_start();
 
+	//Checks to see if the login process was successfully completed.
+	if(isset($_SESSION['goodLogin']))
+	{
+	if($_SESSION['goodLogin'] == true)
+		{
+			$goodLogin = true;
+		}
+		else
+		{
+			$goodLogin = false;
+		}
+	}
+	else
+	{
+		$goodLogin = false;
+	}
+
 	$title = $_GET['title'];
 
 	$_SESSION['deleteTitle'] = $title;
@@ -32,6 +49,15 @@
 
 	<script>
 		var title = <?php echo json_encode($row['title']) ?>;
+
+		//If the login process was not completed the user will be redirected
+		var goodLogin = <?php echo json_encode($goodLogin) ?>;
+
+		if (goodLogin == false)
+		{
+			window.location='../index.php';
+		}
+
 		document.getElementById('title').innerHTML = title;
 
 		function confirm()
@@ -43,9 +69,6 @@
 		{
 			window.location='admin.php'
 		}
-
-
-
 	</script>
 
 </body>

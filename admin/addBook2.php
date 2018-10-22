@@ -13,6 +13,25 @@
 
 	include 'dbh.php';
 
+	session_start();
+
+	//Checks to see if the login process was successfully completed.
+	if(isset($_SESSION['goodLogin']))
+	{
+		if($_SESSION['goodLogin'] == true)
+		{
+			$goodLogin = true;
+		}
+		else
+		{
+			$goodLogin = false;
+		}	
+	}
+	else
+	{
+		$goodLogin = false;
+	}
+
 	$title = $_POST['title'];
 	$publisher = $_POST['publisher'];
 	$author_first = $_POST['authorf'];
@@ -98,6 +117,16 @@
 	}
 
 	?>
+
+	<script>
+		//If the login process was not completed the user will be redirected
+		var goodLogin = <?php echo json_encode($goodLogin) ?>;
+
+		if (goodLogin == false)
+		{
+			window.location='../index.php';
+		}
+	</script>
 
 </body>
 </html>
