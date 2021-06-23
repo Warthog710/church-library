@@ -1,4 +1,4 @@
-# Library Database<hr>
+# Library Database
 
 #### Description:
 This repository contains a website that enable checking in and out books from an HTML/CSS front-end. The back-end using Python with Flask.<br><br>
