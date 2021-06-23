@@ -1,0 +1,11 @@
+.navBarIcon
+{
+    padding-left: 20px;
+    color: darkgray;
+    transition: all 0.1s ease-in-out;
+}
+
+.navBarIcon:hover
+{
+    transform: scale(1.2, 1.2);
+}
