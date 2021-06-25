@@ -1,6 +1,7 @@
 from flask_mysqldb import MySQL
 import json
 
+
 class database:
     def __init__(self, lib):
         # Load config file
@@ -28,5 +29,10 @@ class database:
         print(type(temp))
         print(temp)
 
-        
-
+    def search_by_title(self, title):
+        query = f'SELECT r.id, r.title, r.publisher, r.resource_id, a.first_name, a.last_name FROM resource AS r JOIN authorship AS au ON au.resource_id = r.id JOIN author AS a ON au.author_id = a.id WHERE r.title LIKE \'%{title}%\';'
+        db_handle = self.__db.connection.cursor()
+        db_handle.execute(query)
+        temp = db_handle.fetchall()
+        db_handle.close()
+        return temp

@@ -11,18 +11,19 @@
         <!-- Custom CSS -->
         <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 
-
+        <!-- Favicon -->
+        <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
 
         <nav class="navbar navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{ url_for('index') }}">
                     <img src="{{ url_for('static', filename='images/logo.png') }}" alt="" width="30" height="30"
                         class="d-inline-block align-text-center">
                     Library
                 </a>
                 <div class="icon-bar">
-                    <a href="#"><i class="fas fa-shopping-cart fa-lg navBarIcon"></i></a>
-                    <a href="#"><i class="fas fa-sign-in-alt fa-lg navBarIcon"></i></a>
+                    <a href="#"><i class="fas fa-shopping-cart fa-lg nav-bar-icon"></i></a>
+                    <a href="#"><i class="fas fa-sign-in-alt fa-lg nav-bar-icon"></i></a>
                   </div>
             </div>
         </nav>
